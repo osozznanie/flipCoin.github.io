@@ -329,7 +329,7 @@
         showLoading();
         try {
           const response = await fetch(
-            `http://localhost:8080/webapp/getBalance?chatId=${chatId}`
+            `http://localhost:8080/wallet?chatId=${chatId}`
           );
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
