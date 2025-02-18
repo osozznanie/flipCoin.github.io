@@ -314,17 +314,14 @@
       let currentChatId = null;
       const loadingOverlay = document.getElementById("loadingOverlay");
 
-      // Показать загрузку
       function showLoading() {
         loadingOverlay.classList.add("loading-active");
       }
 
-      // Скрыть загрузку
       function hideLoading() {
         loadingOverlay.classList.remove("loading-active");
       }
 
-      // Функция для получения баланса с локального сервера
       async function fetchBalance(chatId) {
         showLoading();
         try {
@@ -351,7 +348,6 @@
         }
       }
 
-      // Обновить баланс на сервере и отправить результаты в Telegram
       async function updateBalanceAndNotify(amount, won) {
         if (!currentChatId) return;
 
@@ -381,7 +377,6 @@
         }
       }
 
-      // Сделать ставку и запустить игру
       async function makeGuess(guess) {
         if (isAnimating) return;
 
@@ -393,7 +388,6 @@
           return;
         }
 
-        // Блокируем кнопки
         document.getElementById("blackButton").disabled = true;
         document.getElementById("whiteButton").disabled = true;
 
@@ -403,21 +397,16 @@
         result.textContent = "Монетка вертится...";
         result.className = "result";
 
-        // Сбрасываем любые предыдущие анимации
         coin.classList.remove("spin");
-        void coin.offsetWidth; // Принудительный рефлоу для сброса анимации
+        void coin.offsetWidth; 
 
-        // Генерируем случайный исход (с 50% вероятностью для каждого)
         const random = Math.random();
         const outcome = random < 0.5 ? "black" : "white";
 
-        // Добавляем анимацию вращения
         coin.classList.add("spin");
 
-        // Определяем выигрыш/проигрыш
         const won = guess === outcome;
 
-        // Ждем окончания анимации
         setTimeout(async () => {
           if (won) {
             result.textContent = `Вы выиграли ${bet} TK!`;
@@ -427,10 +416,8 @@
             result.className = "result lose";
           }
 
-          // Обновляем баланс и отправляем результаты
           await updateBalanceAndNotify(bet, won);
 
-          // Сбрасываем состояние анимации и разблокируем кнопки
           setTimeout(() => {
             isAnimating = false;
             document.getElementById("blackButton").disabled = false;
@@ -439,7 +426,6 @@
         }, 3000);
       }
 
-      // Инициализация при загрузке
       document.addEventListener("DOMContentLoaded", async function () {
         showLoading();
         tg.ready();
