@@ -5,31 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Web App</title>
     <script>
-        // Функция для получения chatId из Telegram Web App
+        const tg = window.Telegram.WebApp;
         function getChatId() {
             if (window.Telegram.WebApp) {
-                return window.Telegram.WebApp.initDataUnsafe.user.id; // Получаем chatId
+                return tg.initDataUnsafe?.user?.username;
             }
             return null;
         }
 
         // Функция для запроса информации по chatId
-        async function fetchBalance() {
+         function fetchBalance() {
             const chatId = getChatId();
-            if (chatId) {
-                const url = `https://4b64-93-127-89-83.ngrok-free.app/wallet/getBalance?chatId=${chatId}`;
-                try {
-                    const response = await fetch(url);
-                    const data = await response.json();
-                    // Обработка полученных данных
-                    document.getElementById('result').textContent = JSON.stringify(data);
-                } catch (error) {
-                    console.error('Ошибка при получении данных:', error);
-                    document.getElementById('result').textContent = 'Ошибка при получении данных';
-                }
-            } else {
-                document.getElementById('result').textContent = 'Не удалось получить chatId';
-            }
+           document.getElementById("result").innerHTML = getChatId();
         }
 
         window.onload = function() {
