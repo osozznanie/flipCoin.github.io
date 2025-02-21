@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Telegram Web App</title>
     <script>
-        const tg = window.Telegram.WebApp;
-        function getChatId() {
-            if (window.Telegram.WebApp) {
-                return tg.initDataUnsafe?.user?.username;
-            }
-            console.log(JSON.stringify(tg));
-            return null;
+      const tg = window.Telegram.WebApp;
+      function getChatId() {
+        if (window.Telegram.WebApp) {
+          return tg.initDataUnsafe?.user?.username;
         }
-      
+        console.log(JSON.stringify(tg));
+        return null;
+      }
 
-         function fetchBalance() {
-            const chatId = getChatId();
-           document.getElementById("result").innerHTML = getChatId();
-        }
+      function fetchBalance() {
+        const chatId = getChatId();
+        document.getElementById("result").innerHTML = getChatId();
+      }
 
-        window.onload = function() {
-            fetchBalance();
-        };
+      window.onload = function () {
+        fetchBalance();
+      };
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Информация о балансе</h1>
     <div id="result">Загрузка...</div>
-</body>
+  </body>
 </html>
