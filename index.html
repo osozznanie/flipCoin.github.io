@@ -10,10 +10,11 @@
             if (window.Telegram.WebApp) {
                 return tg.initDataUnsafe?.user?.username;
             }
+            console.log(JSON.stringify(tg));
             return null;
         }
+      
 
-        // Функция для запроса информации по chatId
          function fetchBalance() {
             const chatId = getChatId();
            document.getElementById("result").innerHTML = getChatId();
