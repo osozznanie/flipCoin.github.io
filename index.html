@@ -5,24 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Telegram Web App</title>
     <script>
-      const tg = window.Telegram.WebApp;
-      function getChatId() {
-        console.log("123 123 ",JSON.stringify(tg));
-        if (window.Telegram.WebApp) {
-          return tg.initDataUnsafe?.user?.username;
+      if (window.Telegram && window.Telegram.WebApp) {
+        const tg = window.Telegram.WebApp;
+
+        function getChatId() {
+          console.log("Telegram WebApp loaded: ", JSON.stringify(tg));
+          return tg.initDataUnsafe?.user?.username || null;
         }
-        
-        return null;
-      }
 
-      function fetchBalance() {
-        const chatId = getChatId();
-        document.getElementById("result").innerHTML = getChatId();
-      }
+        function fetchBalance() {
+          const chatId = getChatId();
+          document.getElementById("result").innerHTML =
+            chatId || "User not found.";
+        }
 
-      window.onload = function () {
-        fetchBalance();
-      };
+        window.onload = function () {
+          fetchBalance();
+        };
+      } else {
+        console.error("Telegram WebApp is not available.");
+        document.getElementById("result").innerHTML =
+          "Telegram WebApp not available.";
+      }
     </script>
   </head>
   <body>
