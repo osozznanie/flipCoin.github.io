@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Telegram Web App</title>
+  </head>
+  <body>
+    <h1>Информация о балансе</h1>
+    <div id="result">Загрузка...</div>
     <script>
       if (window.Telegram && window.Telegram.WebApp) {
         const tg = window.Telegram.WebApp;
@@ -15,8 +19,7 @@
 
         function fetchBalance() {
           const chatId = getChatId();
-          document.getElementById("result").innerHTML =
-            chatId || "User not found.";
+          document.getElementById("result").innerHTML = chatId || "User not found.";
         }
 
         window.onload = function () {
@@ -24,13 +27,8 @@
         };
       } else {
         console.error("Telegram WebApp is not available.");
-        document.getElementById("result").innerHTML =
-          "Telegram WebApp not available.";
+        document.getElementById("result").innerHTML = "Telegram WebApp not available.";
       }
     </script>
-  </head>
-  <body>
-    <h1>Информация о балансе</h1>
-    <div id="result">Загрузка...</div>
   </body>
 </html>
