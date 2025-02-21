@@ -326,7 +326,7 @@
         showLoading();
         try {
           const response = await fetch(
-            `http://localhost:8080/wallet/getBalance?chatId=708915074`
+            `https://4b64-93-127-89-83.ngrok-free.app/wallet/getBalance?chatId=708915074`
           );
           if (!response.ok)
             throw new Error(`HTTP error! status: ${response.status}`);
