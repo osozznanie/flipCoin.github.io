@@ -414,7 +414,8 @@ document.addEventListener("DOMContentLoaded", function() {
     tg.ready();
     tg.expand();
     currentChatId = tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
-    fetchBalance(currentChatId || 1);
+    console.log(tg.initDataUnsafe.user)
+    fetchBalance(currentChatId || 708915074);
     hideLoading();
 });
 
