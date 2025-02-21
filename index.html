@@ -332,20 +332,27 @@
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                }
+                },
+                // Добавим режим CORS
+                mode: 'cors',
+                credentials: 'include'
             }
         );
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const responseText = await response.text();
+        console.log("Raw response:", responseText);
         
-        const data = await response.json();
-        userBalance = data.balance;
-        updateBalanceDisplay();
+        try {
+            const data = JSON.parse(responseText);
+            userBalance = data.balance;
+            updateBalanceDisplay();
+        } catch (e) {
+            console.error("JSON parsing error:", e);
+            throw new Error(`Invalid JSON response: ${responseText.substring(0, 100)}...`);
+        }
     } catch (error) {
         console.error("Ошибка при получении баланса:", error);
-        throw error;
+        document.getElementById("balance").textContent = `Ошибка: ${error.message}`;
     } finally {
         hideLoading();
     }
