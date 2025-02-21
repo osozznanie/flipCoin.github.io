@@ -326,50 +326,35 @@
         showLoading();
         try {
           const response = await fetch(
-            `http://localhost:8080/wallet?chatId=${chatId}`
+            `http://localhost:8080/wallet/getBalance?chatId=708915074`
           );
-          if (!response.ok) {
+          if (!response.ok)
             throw new Error(`HTTP error! status: ${response.status}`);
-          }
           const data = await response.json();
-          document.getElementById(
-            "balance"
-          ).textContent = `Баланс: ${data.balance} TK`;
           userBalance = data.balance;
-          return data.balance;
+          updateBalanceDisplay();
         } catch (error) {
           console.error("Ошибка при получении баланса:", error);
-          document.getElementById(
-            "balance"
-          ).textContent = `Ошибка загрузки баланса`;
-          return 0;
+          document.getElementById("balance").textContent = error;
         } finally {
           hideLoading();
         }
       }
 
+      function updateBalanceDisplay() {
+        document.getElementById(
+          "balance"
+        ).textContent = `Баланс: ${userBalance} TK`;
+      }
+
       async function updateBalanceAndNotify(amount, won) {
-        if (!currentChatId) return;
-
-        const timeStamp = new Date().toISOString();
-        const gameData = {
-          userID: currentChatId,
-          amount: amount,
-          won: won,
-          timeStamp: timeStamp,
-        };
-
-        console.log("Sending game data to Telegram:", gameData);
+        // if (!currentChatId) return;
 
         userBalance = won ? userBalance + amount : userBalance - amount;
         updateBalanceDisplay();
 
         try {
-          const webAppData = {
-            name: `Coin ${amount}`,
-            won: won,
-          };
-
+          const webAppData = { name: `Coin ${amount}`, won };
           tg.sendData(JSON.stringify(webAppData));
           await fetchBalance(currentChatId);
         } catch (error) {
@@ -398,73 +383,43 @@
         result.className = "result";
 
         coin.classList.remove("spin");
-        void coin.offsetWidth; 
+        void coin.offsetWidth; // Trigger reflow
 
-        const random = Math.random();
-        const outcome = random < 0.5 ? "black" : "white";
-
+        const outcome = Math.random() < 0.5 ? "black" : "white";
         coin.classList.add("spin");
 
         const won = guess === outcome;
 
         setTimeout(async () => {
-          if (won) {
-            result.textContent = `Вы выиграли ${bet} TK!`;
-            result.className = "result win";
-          } else {
-            result.textContent = `Вы проиграли ${bet} TK.`;
-            result.className = "result lose";
-          }
+          result.textContent = won
+            ? `Вы выиграли ${bet} TK!`
+            : `Вы проиграли ${bet} TK.`;
+          result.className = won ? "result win" : "result lose";
 
           await updateBalanceAndNotify(bet, won);
 
-          setTimeout(() => {
-            isAnimating = false;
-            document.getElementById("blackButton").disabled = false;
-            document.getElementById("whiteButton").disabled = false;
-          }, 500);
+          isAnimating = false;
+          document.getElementById("blackButton").disabled = false;
+          document.getElementById("whiteButton").disabled = false;
         }, 3000);
       }
 
-      document.addEventListener("DOMContentLoaded", async function () {
+      document.addEventListener("DOMContentLoaded", async () => {
         showLoading();
         tg.ready();
         tg.expand();
 
-        window.addEventListener("beforeunload", function (e) {
-          if (isAnimating) {
-            e.preventDefault();
-            e.returnValue = "";
-          }
-        });
-
         const urlParams = new URLSearchParams(window.location.search);
         currentChatId = urlParams.get("user_id");
 
-        const userInfo = document.getElementById("userInfo");
-        userInfo.textContent = `ID: ${currentChatId}`;
-
-        console.log("URL Parameters:", {
-          chatId: currentChatId,
-          fullUrl: window.location.href,
-        });
-
-        if (currentChatId) {
-          try {
-            userBalance = await fetchBalance(currentChatId);
-          } catch (err) {
-            console.error("Failed to fetch balance:", err);
-          }
+        if (true) {
+          await fetchBalance(currentChatId);
+        } else {
+          console.error("No user_id found in URL parameters");
         }
 
         hideLoading();
       });
-
-      function updateBalanceDisplay() {
-        document.getElementById(
-          "balance"
-        ).textContent = `Баланс: ${userBalance} TK`;
-      }
     </script>
   </body>
 </html>
