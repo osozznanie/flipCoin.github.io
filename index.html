@@ -326,7 +326,7 @@
     showLoading();
     try {
         const response = await fetch(
-            `https://4b64-93-127-89-83.ngrok-free.app/wallet/getBalance?chatId=${chatId}`,
+            `https://4b64-93-127-89-83.ngrok-free.app/wallet/getBalance?chatId=708915074`,
             {
                 method: 'GET',
                 headers: {
@@ -427,8 +427,8 @@
     tg.expand();
     
     // Получаем chatId из Telegram WebApp
-    currentChatId = tg.initDataUnsafe?.user?.id;
-    
+    currentChatId = tg.initDataUnsafe.user.id;
+    fetchBalance(1);
     if (currentChatId) {
         try {
             await fetchBalance(currentChatId);
