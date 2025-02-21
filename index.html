@@ -7,10 +7,11 @@
     <script>
       const tg = window.Telegram.WebApp;
       function getChatId() {
+        console.log("123 123 ",JSON.stringify(tg));
         if (window.Telegram.WebApp) {
           return tg.initDataUnsafe?.user?.username;
         }
-        console.log(JSON.stringify(tg));
+        
         return null;
       }
 
