@@ -330,8 +330,7 @@ function fetchBalance(chatId) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        mode: 'cors',
-        credentials: 'include'
+        mode: 'cors'
     })
     .then(response => response.text())
     .then(responseText => {
