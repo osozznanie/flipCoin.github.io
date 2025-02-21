@@ -22,7 +22,7 @@
                     function getUserInfo() {
                         const userInfo = {
                             username: tg.initDataUnsafe?.user?.username,
-                            id: tg.initDataUnsafe?.chat?.id,
+                            id: tg.initDataUnsafe?.user?.id,
                             firstName: tg.initDataUnsafe?.user?.first_name
                         };
                         console.log("User Info:", userInfo);
